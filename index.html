@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Jogo do Número Secreto</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: url("e.jpg") no-repeat center center/cover;
+    }
+    .box {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+    h1 {
+      font-size: 2rem;
+      background: linear-gradient(90deg, #ff66cc, #9933ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 15px;
+    }
+    p {
+      color: #333;
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      background: linear-gradient(90deg, #ff66cc, #9933ff);
+      color: white;
+      font-weight: bold;
+      transition: transform 0.2s;
+    }
+    button:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>Jogo do Número Secreto</h1>
+    <p>Clique abaixo para iniciar. O jogo roda em <code>alert</code> e <code>prompt</code>.</p>
+    <button onclick="iniciarJogo()">Iniciar Jogo</button>
+  </div>
+
+  <script>
+    function iniciarJogo() {
+      const minimo = 1;
+      const maximo = 100;
+      const tentativasMaximas = 10;
+
+      const numeroSecreto = Math.floor(Math.random() * (maximo - minimo + 1)) + minimo;
+      let tentativas = 0;
+      let acertou = false;
+
+      alert(`Pensei em um número entre ${minimo} e ${maximo}. Você tem ${tentativasMaximas} tentativas.`);
+
+      while (tentativas < tentativasMaximas && !acertou) {
+        tentativas++;
+        let palpite = prompt(`Tentativa ${tentativas} de ${tentativasMaximas}.\nDigite um número entre ${minimo} e ${maximo}:`);
+
+        if (palpite === null) {
+          alert(`Jogo cancelado. O número era ${numeroSecreto}.`);
+          return;
+        }
+
+        palpite = Number(palpite);
+
+        if (!Number.isInteger(palpite) || palpite < minimo || palpite > maximo) {
+          alert(`Entrada inválida! Digite um número inteiro entre ${minimo} e ${maximo}.`);
+          tentativas--;
+          continue;
+        }
+
+        if (palpite === numeroSecreto) {
+          alert(`🎉 Você acertou! O número secreto era ${numeroSecreto}. Tentativas usadas: ${tentativas}.`);
+          acertou = true;
+        } else {
+          const dica = palpite < numeroSecreto ? "maior" : "menor";
+          alert(`Errou! O número secreto é ${dica} que ${palpite}.`);
+        }
+      }
+
+      if (!acertou) {
+        alert(`😢 Suas tentativas acabaram! O número era ${numeroSecreto}.`);
+      }
+    }
+  </script>
+</body>
+</html>
